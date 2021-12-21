@@ -4,6 +4,7 @@ const nameInput = document.getElementById('name');
 const emailInput = document.getElementById('email');
 const passInput = document.getElementById('password');
 const confInput = document.getElementById('confirm');
+const checkbox = document.getElementById('checkbox');
 
 nameInput.addEventListener('change', () => {
     const minLength = 2;
@@ -51,12 +52,6 @@ passInput.addEventListener('change', () => {
     const hasAtLeastOneDigit = atLeastOneDigitReg.test(passInput.value);
     const atLeastOneSpecialCharReg = /[^A-Za-z0-9]+/g;
     const hasAtLeastOneSpecialChar = atLeastOneSpecialCharReg.test(passInput.value);
-    console.log(`Password: ${passInput.value}`)
-    console.log(`Min length: ${passInput.value.length >= minLength}`);
-    console.log(`One Big Letter: ${hasOneBigLetter}`);
-    console.log(`Check How Much Big Letter: ${checkHowManyBigLetters}`);
-    console.log(`At least one digit: ${hasAtLeastOneDigit}`);
-    console.log(`At least one special char: ${hasAtLeastOneSpecialChar}`);
     if (passInput.value.length <= minLength) {
         passInput.parentNode.appendChild(createValidator("Your password should have at least eight characters!"));
     }
@@ -85,6 +80,12 @@ confInput.addEventListener('change', () => {
         removeValidator(confInput);
     }
 })
+
+data.rodo = checkbox.checked;
+checkbox.addEventListener('change', () => {
+    data.rodo = checkbox.checked;
+})
+
 function createValidator(txt) {
     const validator = document.createElement('p');
     validator.classList.add('validator');
