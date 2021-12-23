@@ -1,4 +1,13 @@
-const data = {};
+function dataObj() {
+};
+dataObj.prototype.getProp = function (propName) {
+    return this[propName];
+};
+dataObj.prototype.setProp = function (propName, value) {
+    this[propName] = value;
+};
+
+const dataFromInputs = new dataObj();
 
 const nameInput = document.getElementById('name');
 const emailInput = document.getElementById('email');
@@ -17,7 +26,7 @@ nameInput.addEventListener('change', () => {
         nameInput.parentNode.appendChild(createValidator("Your name should not include any special characters or digits!"));
     }
     else {
-        data.name = nameInput.value;
+        dataFromInputs.setProp('name', nameInput.value);
         removeValidator(nameInput)
     }
 })
@@ -35,7 +44,7 @@ emailInput.addEventListener('change', () => {
         emailInput.parentNode.appendChild(createValidator(`Your email address domain is not valid, please try again!`));
     }
     else {
-        data.email = emailInput.value.toLowerCase();
+        dataFromInputs.setProp('email', emailInput.value.toLowerCase());
         removeValidator(emailInput);
     }
 
@@ -66,26 +75,63 @@ passInput.addEventListener('change', () => {
         passInput.parentNode.appendChild(createValidator("Your password should have at least one special character!"));
     }
     else {
-        data.password = passInput.value;
+        dataFromInputs.setProp('password', passInput.value);
         removeValidator(passInput);
     }
 })
 confInput.addEventListener('change', () => {
-    isTheSameAsPassword = confInput.value === data.password;
+    isTheSameAsPassword = confInput.value === dataFromInputs.password;
     if (!isTheSameAsPassword) {
         confInput.parentNode.appendChild(createValidator("Your password should be the same in both fields!"));
     }
     else {
-        data.confirmation = confInput.value;
+        dataFromInputs.setProp('confirmation', confInput.value);
         removeValidator(confInput);
     }
 })
 
-data.rodo = checkbox.checked;
+dataFromInputs.setProp('rodo', checkbox.checked);
 checkbox.addEventListener('change', () => {
-    data.rodo = checkbox.checked;
+    dataFromInputs.setProp('rodo', checkbox.checked);
 })
 
+const form = document.forms[0];
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = new FormData();
+    for (let key of Object.keys(dataFromInputs)) {
+        data.append(key, dataFromInputs[key]);
+    }
+    submitData(data);
+})
+
+/* FETCH API */
+
+function submitData(data) {
+    fetch("https://przeprogramowani.pl/projekt-walidacja", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+        .then((response) => {
+            // console.log(response);
+            if (response.ok) {
+                return response.text();
+            }
+            throw "Nie udało się wysłać zapytania!";
+        })
+        .then((responseText) => {
+            console.log(responseText);
+        })
+        .catch((err) => {
+            alert("Spróbuj ponownie!");
+        });
+}
+
+
+/* Helpers */
 function createValidator(txt) {
     const validator = document.createElement('p');
     validator.classList.add('validator');
@@ -97,5 +143,4 @@ function removeValidator(element) {
     const validators = document.querySelectorAll('.validator');
     const parent = element.parentNode;
     validators.forEach(validator => parent.removeChild(validator));
-}
-
+};
