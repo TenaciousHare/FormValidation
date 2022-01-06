@@ -52,15 +52,14 @@ emailInput.addEventListener('change', () => {
 
 passInput.addEventListener('change', () => {
     const minLength = 8;
-
     const oneBigLetterReg = /[A-Z]{1}/g;
     const checkHowManyBigLetters = passInput.value.match(oneBigLetterReg);
     const hasOneBigLetter = checkHowManyBigLetters.length === 1;
-
     const atLeastOneDigitReg = /\d+/g;
     const hasAtLeastOneDigit = atLeastOneDigitReg.test(passInput.value);
     const atLeastOneSpecialCharReg = /[^A-Za-z0-9]+/g;
     const hasAtLeastOneSpecialChar = atLeastOneSpecialCharReg.test(passInput.value);
+
     if (passInput.value.length <= minLength) {
         passInput.parentNode.appendChild(createValidator("Your password should have at least eight characters!"));
     }
@@ -95,43 +94,6 @@ checkbox.addEventListener('change', () => {
     dataFromInputs.setProp('rodo', checkbox.checked);
 })
 
-const form = document.forms[0];
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const data = new FormData();
-    for (let key of Object.keys(dataFromInputs)) {
-        data.append(key, dataFromInputs[key]);
-    }
-    submitData(data);
-})
-
-/* FETCH API */
-
-function submitData(data) {
-    fetch("https://przeprogramowani.pl/projekt-walidacja", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-    })
-        .then((response) => {
-            // console.log(response);
-            if (response.ok) {
-                return response.text();
-            }
-            throw "Nie udało się wysłać zapytania!";
-        })
-        .then((responseText) => {
-            console.log(responseText);
-        })
-        .catch((err) => {
-            alert("Spróbuj ponownie!");
-        });
-}
-
-
-/* Helpers */
 function createValidator(txt) {
     const validator = document.createElement('p');
     validator.classList.add('validator');
@@ -144,3 +106,35 @@ function removeValidator(element) {
     const parent = element.parentNode;
     validators.forEach(validator => parent.removeChild(validator));
 };
+
+const form = document.forms[0];
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = new FormData();
+    for (let key of Object.keys(dataFromInputs)) {
+        data.append(key, dataFromInputs[key]);
+    }
+    submitData(data);
+})
+
+function submitData(data) {
+    fetch("https://przeprogramowani.pl/projekt-walidacja", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+        .then((response) => {
+            if (response.ok) {
+                return response.text();
+            }
+            throw "Nie udało się wysłać zapytania!";
+        })
+        .then((responseText) => {
+            console.log(responseText);
+        })
+        .catch((err) => {
+            alert("Spróbuj ponownie!");
+        });
+}

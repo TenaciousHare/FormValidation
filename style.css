@@ -12,7 +12,9 @@
 *::after {
   box-sizing: border-box;
 }
-
+.hidden {
+  display: none;
+}
 body {
   font-family: "Roboto", sans-serif;
   font-size: 1rem;
@@ -90,12 +92,6 @@ button {
   margin-bottom: 1.875rem;
 }
 
-.description {
-  font-style: italic;
-  font-weight: 200;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
-}
-
 .text-center {
   text-align: center;
 }
@@ -133,6 +129,14 @@ form {
   border: 1px solid #1cb5e0;
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+legend p {
+  font-size: 0.7rem;
+  margin: 2px;
+}
+legend p p {
+  font-size: 0.7rem;
 }
 
 .form-control:focus {
