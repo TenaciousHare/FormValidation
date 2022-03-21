@@ -1,3 +1,5 @@
+import '../sass/style.scss';
+
 function dataObj() {
 };
 dataObj.prototype.getProp = function (propName) {
@@ -7,8 +9,8 @@ dataObj.prototype.setProp = function (propName, value) {
     this[propName] = value;
 };
 
-const dataFromInputs = new dataObj();
 
+const dataFromInputs = new dataObj();
 const nameInput = document.getElementById('name');
 const emailInput = document.getElementById('email');
 const passInput = document.getElementById('password');
@@ -79,7 +81,7 @@ passInput.addEventListener('change', () => {
     }
 })
 confInput.addEventListener('change', () => {
-    isTheSameAsPassword = confInput.value === dataFromInputs.password;
+    const isTheSameAsPassword = confInput.value === dataFromInputs.password;
     if (!isTheSameAsPassword) {
         confInput.parentNode.appendChild(createValidator("Your password should be the same in both fields!"));
     }
@@ -118,23 +120,18 @@ form.addEventListener('submit', (e) => {
 })
 
 function submitData(data) {
-    fetch("https://przeprogramowani.pl/projekt-walidacja", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
+    const url = 'https://przeprogramowani.pl/projekt-walidacja';
+    const options = {
+        method: 'POST',
         body: JSON.stringify(data),
-    })
-        .then((response) => {
-            if (response.ok) {
-                return response.text();
-            }
-            throw "Nie udało się wysłać zapytania!";
+        headers: { "Content-Type": "application/json" }
+    };
+    fetch(url, options)
+        .then(res => res.json())
+        .then(res => {
+            console.log(`Sukces! Formularz z danymi ${res} został wysłany`);
         })
-        .then((responseText) => {
-            console.log(responseText);
-        })
-        .catch((err) => {
-            alert("Spróbuj ponownie!");
+        .catch(() => {
+            console.log('Problemy z połączeniem');
         });
 }

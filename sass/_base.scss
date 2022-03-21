@@ -1,0 +1,50 @@
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: $color-white;
+  margin: 0;
+
+  &::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    background: $color-black;
+  }
+}
+
+h1 {
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 1.2;
+  @include text-margins;
+}
+
+p {
+  font-size: 1.125rem;
+  @include text-margins;
+}
+
+label {
+  display: flex;
+  align-items: center;
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
+}
+
+input,
+button {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+button {
+  border: none;
+}
