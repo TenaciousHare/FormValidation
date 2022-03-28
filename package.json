@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "description": "Example project for semi-advanced concepts of Webpack",
   "main": "index.js",
-  "homepage": "https://TenaciousHare.github.io/FormValidation",
+  "homepage": "https://tenacioushare.github.io/FormValidation",
   "scripts": {
     "start": "webpack-dev-server --config ./config/webpack.config.js",
     "prod": "webpack --config ./config/webpack.config.prod.js",
     "dev": "webpack --config ./config/webpack.config.js",
     "predeploy": "npm run prod",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "author": "PZ",
   "license": "ISC",
