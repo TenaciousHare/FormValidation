@@ -1,113 +1,29 @@
 import '../sass/style.scss';
+import { nameValidation } from './validators/nameValidation.js';
+import { emailValidation } from './validators/emailValidation.js';
+import { passwordValidation, passConfValidation } from './validators/passwordValidation.js';
+import { rodoValidation } from './validators/rodoValidation.js';
+import { dataFromInputs } from './data/dataFromInputs.js';
+import {
+    nameInput,
+    emailInput,
+    passInput,
+    confInput,
+    checkbox,
+} from './data/inputs.js';
+import { submitData } from './data/submitData.js';
 
-function dataObj() {
-};
-dataObj.prototype.getProp = function (propName) {
-    return this[propName];
-};
-dataObj.prototype.setProp = function (propName, value) {
-    this[propName] = value;
-};
+nameInput.addEventListener('change', nameValidation);
 
+emailInput.addEventListener('change', emailValidation);
 
-const dataFromInputs = new dataObj();
-const nameInput = document.getElementById('name');
-const emailInput = document.getElementById('email');
-const passInput = document.getElementById('password');
-const confInput = document.getElementById('confirm');
-const checkbox = document.getElementById('checkbox');
+passInput.addEventListener('change', passwordValidation);
 
-nameInput.addEventListener('change', () => {
-    const minLength = 2;
-    const specialCharOrDigitsReg = /[^AaĄąBbCcĆćDdEeĘęFfGgHhIiJjKkLlŁłMmNnŃńOoÓóPpRrSsŚśTtUuWwYyZzŹźŻż\s]/gim;
-    const hasSpecialCharsOrDigits = specialCharOrDigitsReg.test(nameInput.value);
-
-    if (nameInput.value.length <= minLength) {
-        nameInput.parentNode.appendChild(createValidator("Your name should have at least three characters!"));
-    } else if (hasSpecialCharsOrDigits) {
-        nameInput.parentNode.appendChild(createValidator("Your name should not include any special characters or digits!"));
-    }
-    else {
-        dataFromInputs.setProp('name', nameInput.value);
-        removeValidator(nameInput)
-    }
-})
-
-emailInput.addEventListener('change', () => {
-    const AtReg = /[@]/g;
-    const hasExactOneAt = emailInput.value.match(AtReg).length === 1;
-    const domainReg = /(?<=@)[\w\.-]+\.\w{2,4}\b/gi;
-
-
-    if (!hasExactOneAt) {
-        emailInput.parentNode.appendChild(createValidator(`Your email address should have only one "@" sign!`));
-    }
-    else if (!domainReg.test(emailInput.value)) {
-        emailInput.parentNode.appendChild(createValidator(`Your email address domain is not valid, please try again!`));
-    }
-    else {
-        dataFromInputs.setProp('email', emailInput.value.toLowerCase());
-        removeValidator(emailInput);
-    }
-
-})
-
-passInput.addEventListener('change', () => {
-    const minLength = 8;
-    const oneBigLetterReg = /[A-Z]{1}/g;
-    const checkHowManyBigLetters = passInput.value.match(oneBigLetterReg);
-    const hasOneBigLetter = checkHowManyBigLetters.length === 1;
-    const atLeastOneDigitReg = /\d+/g;
-    const hasAtLeastOneDigit = atLeastOneDigitReg.test(passInput.value);
-    const atLeastOneSpecialCharReg = /[^A-Za-z0-9]+/g;
-    const hasAtLeastOneSpecialChar = atLeastOneSpecialCharReg.test(passInput.value);
-
-    if (passInput.value.length <= minLength) {
-        passInput.parentNode.appendChild(createValidator("Your password should have at least eight characters!"));
-    }
-    else if (!hasOneBigLetter) {
-        passInput.parentNode.appendChild(createValidator("Your password should have one character in uppercase!"));
-
-    }
-    else if (!hasAtLeastOneDigit) {
-        passInput.parentNode.appendChild(createValidator("Your password should have at least one digit!"));
-    }
-    else if (!hasAtLeastOneSpecialChar) {
-        passInput.parentNode.appendChild(createValidator("Your password should have at least one special character!"));
-    }
-    else {
-        dataFromInputs.setProp('password', passInput.value);
-        removeValidator(passInput);
-    }
-})
-confInput.addEventListener('change', () => {
-    const isTheSameAsPassword = confInput.value === dataFromInputs.password;
-    if (!isTheSameAsPassword) {
-        confInput.parentNode.appendChild(createValidator("Your password should be the same in both fields!"));
-    }
-    else {
-        dataFromInputs.setProp('confirmation', confInput.value);
-        removeValidator(confInput);
-    }
-})
+confInput.addEventListener('change', passConfValidation);
 
 dataFromInputs.setProp('rodo', checkbox.checked);
-checkbox.addEventListener('change', () => {
-    dataFromInputs.setProp('rodo', checkbox.checked);
-})
+checkbox.addEventListener('change', rodoValidation);
 
-function createValidator(txt) {
-    const validator = document.createElement('p');
-    validator.classList.add('validator');
-    validator.innerText = txt;
-    return validator;
-}
-
-function removeValidator(element) {
-    const validators = document.querySelectorAll('.validator');
-    const parent = element.parentNode;
-    validators.forEach(validator => parent.removeChild(validator));
-};
 
 const form = document.forms[0];
 form.addEventListener('submit', (e) => {
@@ -119,19 +35,4 @@ form.addEventListener('submit', (e) => {
     submitData(data);
 })
 
-function submitData(data) {
-    const url = 'https://przeprogramowani.pl/projekt-walidacja';
-    const options = {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: { "Content-Type": "application/json" }
-    };
-    fetch(url, options)
-        .then(res => res.json())
-        .then(res => {
-            console.log(`Sukces! Formularz z danymi ${res} został wysłany`);
-        })
-        .catch(() => {
-            console.log('Problemy z połączeniem');
-        });
-}
+
