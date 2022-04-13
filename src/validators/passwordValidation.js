@@ -1,7 +1,8 @@
 import { createValidator, removeValidator } from './validatorMsg.js';
 import { dataFromInputs } from '../data/dataFromInputs.js';
-import { passInput, confInput } from '../data/inputs.js'
 
+export const passInput = document.getElementById('password');
+export const confInput = document.getElementById('confirm');
 
 export const passwordValidation = () => {
     const minLength = 8;
@@ -14,18 +15,12 @@ export const passwordValidation = () => {
         passInput.value
     );
 
-    if (passInput.value.length <= minLength) {
-        passInput.parentNode.appendChild(createValidator("Your password should have at least eight characters!"));
-    }
-    else if (!hasOneBigLetter) {
-        passInput.parentNode.appendChild(createValidator("Your password should have one character in uppercase!"));
-
-    }
-    else if (!hasAtLeastOneDigit) {
-        passInput.parentNode.appendChild(createValidator("Your password should have at least one digit!"));
-    }
-    else if (!hasAtLeastOneSpecialChar) {
-        passInput.parentNode.appendChild(createValidator("Your password should have at least one special character!"));
+    if (passInput.value.length <= minLength || !hasOneBigLetter || !hasAtLeastOneDigit || !hasAtLeastOneSpecialChar) {
+        passInput.parentNode.appendChild(createValidator(`Your password should have:
+        - at least eight characters
+        - one character in uppercase
+        - at least one digit
+        - at least one special character`));
     }
     else {
         dataFromInputs.setProp('password', passInput.value);

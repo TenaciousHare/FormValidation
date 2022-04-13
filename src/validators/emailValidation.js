@@ -1,6 +1,7 @@
 import { createValidator, removeValidator } from './validatorMsg.js';
 import { dataFromInputs } from '../data/dataFromInputs.js';
-import { emailInput } from '../data/inputs.js'
+
+export const emailInput = document.getElementById('email');
 
 export const emailValidation = () => {
     const regex = /(?<=@)[\w\.-]+\.\w{2,4}\b/gi;

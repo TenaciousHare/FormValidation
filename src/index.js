@@ -1,16 +1,9 @@
 import '../sass/style.scss';
-import { nameValidation } from './validators/nameValidation.js';
-import { emailValidation } from './validators/emailValidation.js';
-import { passwordValidation, passConfValidation } from './validators/passwordValidation.js';
-import { rodoValidation } from './validators/rodoValidation.js';
+import { nameValidation, nameInput } from './validators/nameValidation.js';
+import { emailValidation, emailInput } from './validators/emailValidation.js';
+import { passwordValidation, passConfValidation, passInput, confInput } from './validators/passwordValidation.js';
+import { rodoValidation, checkbox } from './validators/rodoValidation.js';
 import { dataFromInputs } from './data/dataFromInputs.js';
-import {
-    nameInput,
-    emailInput,
-    passInput,
-    confInput,
-    checkbox,
-} from './data/inputs.js';
 import { submitData } from './data/submitData.js';
 
 nameInput.addEventListener('change', nameValidation);
