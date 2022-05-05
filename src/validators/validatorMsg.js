@@ -1,4 +1,8 @@
-export const createValidator = (txt) => {
+export const createValidator = (target, txt) => {
+    const visibleValidator = document.querySelector('.validator');
+    if(visibleValidator){
+        return null;
+    }
     const validator = document.createElement('p');
     validator.classList.add('validator');
     validator.innerText = txt;
@@ -6,7 +10,11 @@ export const createValidator = (txt) => {
 }
 
 export const removeValidator = (element) => {
-    const validators = document.querySelectorAll('.validator');
+    const validator = document.querySelector('.validator');
+    if(!validator){
+        return null;
+    }
     const parent = element.parentNode;
-    validators.forEach(validator => parent.removeChild(validator));
+    parent.removeChild(validator);
+    
 };

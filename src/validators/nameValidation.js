@@ -1,20 +1,20 @@
 import { createValidator, removeValidator } from './validatorMsg.js';
 import { dataFromInputs } from '../data/dataFromInputs.js';
 
-export const nameInput = document.getElementById('name');
-
-export const nameValidation = () => {
+export const nameValidation = ({target, target: {value}}) => {
     const minLength = 2;
-    const specialCharOrDigitsReg = /[^AaĄąBbCcĆćDdEeĘęFfGgHhIiJjKkLlŁłMmNnŃńOoÓóPpRrSsŚśTtUuWwYyZzŹźŻż\s]/gim;
-    const hasSpecialCharsOrDigits = specialCharOrDigitsReg.test(nameInput.value);
+    const specialCharOrDigitsReg = /[^AaĄąBbCcĆćDdEeĘęFfGgHhIiJjKkLlŁłMmNnŃńOoÓóPpRrSsŚśTtUuVvWwYyZzŹźŻż\s]/gim;
+    const hasSpecialCharsOrDigits = specialCharOrDigitsReg.test(value);
 
-    if (nameInput.value.length <= minLength || hasSpecialCharsOrDigits ) {
-        nameInput.parentNode.appendChild(createValidator(`Your name should:
+    if (value.length <= minLength || hasSpecialCharsOrDigits ) {
+        const validator = createValidator(target, `Your name should:
         - have at least three characters
-        - not include any special characters or digits`));
-    }
+        - not include any special characters or digits`);
+        if(validator){target.parentNode.appendChild(validator);
+        }}
+        
     else {
-        dataFromInputs.setProp('name', nameInput.value);
-        removeValidator(nameInput)
+        dataFromInputs.setProp('name', value);
+        removeValidator(target)
     }
 }
