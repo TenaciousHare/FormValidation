@@ -1,20 +1,21 @@
 import { createValidator, removeValidator } from './validatorMsg.js';
 import { dataFromInputs } from '../data/dataFromInputs.js';
-import { emailInput } from '../data/inputs.js'
 
-export const emailValidation = () => {
+export const emailValidation = ({target, target: {value}}) => {
     const regex = /(?<=@)[\w\.-]+\.\w{2,4}\b/gi;
-    const checkEmailString = regex.test(emailInput.value);
+    const checkEmailString = regex.test(value);
 
     if (!checkEmailString) {
-        emailInput.parentNode.appendChild(
-            createValidator(
-                `Your email address domain is not valid, please try again!`
-            )
+        const validator = createValidator(target,
+            `Your email address domain is not valid, please try again!`
         );
+        if(validator){
+            target.parentNode.appendChild(validator);
+        }
+       
     }
     else {
-        dataFromInputs.setProp('email', emailInput.value.toLowerCase());
-        removeValidator(emailInput);
+        dataFromInputs.setProp('email', value.toLowerCase());
+        removeValidator(target);
     }
 }
