@@ -35,6 +35,12 @@ form.addEventListener("submit", (e) => {
   })
   .catch(() => {
       console.log('Problemy z połączeniem');
-  })};
+  })
+  inputs.forEach((input) => {
+    input.value = '';
+    input.checked = false;
+  });
+  DataFromInputs.resetValues();
+};
 });
    
