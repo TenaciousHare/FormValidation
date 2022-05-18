@@ -1,5 +1,5 @@
 import { createValidator, removeValidator } from './validatorMsg.js';
-import { dataFromInputs } from '../data/dataFromInputs.js';
+import { DataFromInputs } from '../data/DataFromInputs.js';
 
 export const passwordValidation = ({target, target:{value}}) => {
     const minLength = 8;
@@ -11,31 +11,28 @@ export const passwordValidation = ({target, target:{value}}) => {
     const hasAtLeastOneSpecialChar = atLeastOneSpecialCharReg.test(value);
 
     if (value.length < minLength || !hasOneBigLetter || !hasAtLeastOneDigit || !hasAtLeastOneSpecialChar) {
-        
         const validator = createValidator(target,`Your password should have:
         - at least eight characters
         - one character in uppercase
         - at least one digit
         - at least one special character`);
-        console.log(target);
         if(validator){
            target.parentNode.appendChild(validator)};
-        
     }
     else {
-        dataFromInputs.setProp('password', value);
+        DataFromInputs.setProp('password', value);
         removeValidator(target);
     }
 }
 
 export const passConfValidation = ({target, target:{value}}) => {
-    const isTheSameAsPassword = value === dataFromInputs.password;
+    const isTheSameAsPassword = value === DataFromInputs.password;
     if (!isTheSameAsPassword) {
         const validator = createValidator(target, "Your password should be the same in both fields!")
         if(validator){target.parentNode.appendChild(validator)};
     }
     else {
-        dataFromInputs.setProp('confirmation', value);
+        DataFromInputs.setProp('confirmation', value);
         removeValidator(target);
     }
 }
