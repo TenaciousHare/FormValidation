@@ -1,7 +1,7 @@
 import "../sass/style.scss";
 import { DataFromInputs } from "./data/DataFromInputs.js";
 import { submitData } from "./data/submitData.js";
-import { handleInputValidation } from "./validators/handleInputsValidation";
+import { handleInputValidation } from "./validators/handleInputsValidation.js";
 import { createValidator, removeValidator } from './validators/validatorMsg.js';
 
 const inputs = document.querySelectorAll("input");
