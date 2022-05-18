@@ -1,9 +1,9 @@
 import { createValidator, removeValidator } from './validatorMsg.js';
-import { dataFromInputs } from '../data/dataFromInputs.js';
+import { DataFromInputs } from '../data/DataFromInputs.js';
 
 export const nameValidation = ({target, target: {value}}) => {
     const minLength = 2;
-    const specialCharOrDigitsReg = /[^AaĄąBbCcĆćDdEeĘęFfGgHhIiJjKkLlŁłMmNnŃńOoÓóPpRrSsŚśTtUuVvWwYyZzŹźŻż\s]/gim;
+    const specialCharOrDigitsReg = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~\d]/;
     const hasSpecialCharsOrDigits = specialCharOrDigitsReg.test(value);
 
     if (value.length <= minLength || hasSpecialCharsOrDigits ) {
@@ -14,7 +14,7 @@ export const nameValidation = ({target, target: {value}}) => {
         }}
         
     else {
-        dataFromInputs.setProp('name', value);
+        DataFromInputs.setProp('name', value);
         removeValidator(target)
     }
 }

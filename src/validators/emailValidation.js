@@ -1,5 +1,5 @@
 import { createValidator, removeValidator } from './validatorMsg.js';
-import { dataFromInputs } from '../data/dataFromInputs.js';
+import { DataFromInputs } from '../data/DataFromInputs.js';
 
 export const emailValidation = ({target, target: {value}}) => {
     const regex = /(?<=@)[\w\.-]+\.\w{2,4}\b/gi;
@@ -15,7 +15,7 @@ export const emailValidation = ({target, target: {value}}) => {
        
     }
     else {
-        dataFromInputs.setProp('email', value.toLowerCase());
+        DataFromInputs.setProp('email', value.toLowerCase());
         removeValidator(target);
     }
 }

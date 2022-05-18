@@ -1,10 +1,17 @@
-function dataObj() {
-};
-dataObj.prototype.getProp = function (propName) {
-    return this[propName];
-};
-dataObj.prototype.setProp = function (propName, value) {
-    this[propName] = value;
+class DataObject {
+    constructor(){
+        this.name = '';
+        this.email = '';
+        this.password = '';
+        this.confirmation = '';
+        this.rodo = false;
+    }
+    getProp(propName) {
+        return this[propName];
+    }
+    setProp(propName, value){
+        this[propName] = value;
+    }
 };
 
-export const dataFromInputs = new dataObj();
+export const DataFromInputs = new DataObject();
